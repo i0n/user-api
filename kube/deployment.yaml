@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-api 
+spec:
+  revisionHistoryLimit: 5
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-api
+  template:
+    metadata:
+      labels:
+        app: user-api
+    spec:
+      containers:
+      - name: app
+        image: i0nw/user-api:latest
+        imagePullPolicy: Always
+        env:
+          - name: POSTGRES_URL
+            value: postgres
+          - name: POSTGRES_DB
+            value: user-api
+          - name: POSTGRES_USER
+            value: postgres
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+               secretKeyRef:
+                  name: postgres-secret
+                  key: superUserPassword
+        ports:
+        - containerPort: 8080
+          protocol: TCP

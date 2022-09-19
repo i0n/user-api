@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: user-apii0nio-ingress
+  namespace: default
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: "user-api.i0n.io"
+      http:
+        paths:
+        - pathType: Prefix
+          path: "/"
+          backend:
+            service:
+              name: user-apii0nio
+              port:
+                number: 8080
+  tls:
+  - hosts:
+    - user-api.i0n.io
+    secretName: user-apii0nio-cert
