@@ -137,7 +137,7 @@ func GetUsersHandler(w http.ResponseWriter, r *http.Request) {
 	var sqlCommand string
 
 	var user User
-	var users []User
+	users := []User{}
 
 	r.ParseForm()
 
