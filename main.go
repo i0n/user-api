@@ -84,7 +84,15 @@ func (u *User) MarshalJSON() ([]byte, error) {
 // HealthCheckHandler returns status 200
 func HealthCheckHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(map[string]bool{"ok": true})
+	json.NewEncoder(w).Encode(map[string]any{
+		"ok":         true,
+		"Version":    version.GetVersion(),
+		"Revision":   version.GetRevision(),
+		"Branch":     version.GetBranch(),
+		"Built By":   version.GetBuildUser(),
+		"Build Date": version.GetBuildDate(),
+		"Go Version": version.GetGoVersion(),
+	})
 }
 
 // CreateUserHandler POST a new user. Requires a unique email address. Key value pairs passed using x-www-form-urlencoded.
