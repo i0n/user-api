@@ -21,11 +21,6 @@ import (
 
 var db *pgxpool.Pool
 
-//Return a paginated list of Users, allowing for filtering by certain criteria (e.g. all Users with the country "UK")
-//
-//The service must:
-//Be well documented
-
 // User The main user struct for storing users in the db. Timestamps are dealt with by Postgres (See db/schema.sql)
 type User struct {
 	ID        int
