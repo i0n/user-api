@@ -1,3 +1,4 @@
+
 # user-api
 
 ## You will need:
@@ -29,9 +30,13 @@ Other useful commands:
 
       make docker-run-psql-dev
 
-  run tests:
+  If you have k6 installed locally you can run the tests:
 
       make test-integration
+      
+Or you can run them from within a docker container if you don't have k6. (You will also need to be running user-api in docker).
+
+    make docker-test-integration
 
 Environment:
 
