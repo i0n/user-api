@@ -89,8 +89,14 @@ docker-build: print-version print-rev print-branch
 docker-run: docker-build docker-create-user-api-network
 	docker run --name user-api --rm --network user-api -e POSTGRES_USER=${POSTGRES_USER} -e POSTGRES_PASSWORD=${POSTGRES_PASSWORD} -e POSTGRES_URL=postgres:5432 -e POSTGRES_DB=${POSTGRES_DB}	-p 8080:8080 ${CONTAINER_NAME}:latest
 
+docker-run-ci: docker-build docker-create-user-api-network
+	docker run --name user-api --rm -d --network user-api -e POSTGRES_USER=${POSTGRES_USER} -e POSTGRES_PASSWORD=${POSTGRES_PASSWORD} -e POSTGRES_URL=postgres:5432 -e POSTGRES_DB=${POSTGRES_DB}	-p 8080:8080 ${CONTAINER_NAME}:latest
+
 docker-run-postgres-dev: docker-create-user-api-network
 	docker run --name postgres --network user-api -e POSTGRES_PASSWORD=${POSTGRES_PASSWORD} -e POSTGRES_DB=${POSTGRES_DB} -v $(shell pwd)/db/:/docker-entrypoint-initdb.d/  --rm -p 5432:5432 postgres
+
+docker-run-postgres-ci: docker-create-user-api-network
+	docker run --name postgres --network user-api -e POSTGRES_PASSWORD=${POSTGRES_PASSWORD} -e POSTGRES_DB=${POSTGRES_DB} -v $(shell pwd)/db/:/docker-entrypoint-initdb.d/  --rm -d -p 5432:5432 postgres
 
 docker-run-psql-dev:
 	docker exec -it postgres  psql -U ${POSTGRES_USER} ${POSTGRES_DB}
