@@ -9,9 +9,6 @@ jobs:
     working_directory: ~/repo
     steps:
       - checkout
-      - setup_remote_docker:
-          version: 20.10.17
-          docker_layer_caching: true
       - run: make docker-run-postgres-ci
       - run: make docker-run-ci
       - run: make docker-test-integration
