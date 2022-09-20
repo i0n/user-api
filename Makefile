@@ -99,8 +99,8 @@ docker-push:
 	docker push ${CONTAINER_NAME}:latest
 	docker push ${CONTAINER_NAME}:$(VERSION)
 
-docker-test-integration:
-	k6 run ./test/integration/k6.js
+test-integration:
+	USER_API_URL=0.0.0.0:8080 k6 run ./test/integration/k6.js
 
 kubernetes-rolling-update-current-version:
 	kubectl set image -f kube/deployment.yaml app=${CONTAINER_NAME}:${VERSION}

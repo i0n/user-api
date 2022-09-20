@@ -7,14 +7,14 @@ export let options = {
 
 export default function () {
   group('API health check', () => {
-    const response = http.get('http://0.0.0.0:8080/');
+    const response = http.get(`http://${__ENV.USER_API_URL}/`);
     check(response, {
       "status code should be 200": res => res.status === 200,
     });
   });
 
   group('GET /users', () => {
-    const response = http.get('http://0.0.0.0:8080/users');
+    const response = http.get(`http://${__ENV.USER_API_URL}/users`);
     check(response, {
       "status code should be 200": res => res.status === 200,
     });
@@ -23,7 +23,7 @@ export default function () {
     });
   });
   group('GET /users?country=USA', () => {
-    const response = http.get('http://0.0.0.0:8080/users?country=USA');
+    const response = http.get(`http://${__ENV.USER_API_URL}/users?country=USA`);
     check(response, {
       "status code should be 200": res => res.status === 200,
     });
@@ -32,7 +32,7 @@ export default function () {
     });
   });
   group('GET /users?country=USA&first_name=Hulk', () => {
-    const response = http.get('http://0.0.0.0:8080/users?country=USA&first_name=Hulk');
+    const response = http.get(`http://${__ENV.USER_API_URL}/users?country=USA&first_name=Hulk`);
     check(response, {
       "status code should be 200": res => res.status === 200,
     });
@@ -41,7 +41,7 @@ export default function () {
     });
   });
   group('GET /users?country=USA&first_name=Hulk&last_name=Dylan', () => {
-    const response = http.get('http://0.0.0.0:8080/users?country=USA&first_name=Hulk&last_name=Dylan');
+    const response = http.get(`http://${__ENV.USER_API_URL}/users?country=USA&first_name=Hulk&last_name=Dylan`);
     check(response, {
       "status code should be 200": res => res.status === 200,
     });
@@ -51,7 +51,7 @@ export default function () {
   });
 
   group('POST /user', () => {
-    const response = http.post('http://0.0.0.0:8080/user');
+    const response = http.post(`http://${__ENV.USER_API_URL}/user`);
     check(response, {
       "status code should be 400": res => res.status === 400,
     });
@@ -61,7 +61,7 @@ export default function () {
     const payload = {
       email: 'test@testing.com'
     };
-    const response = http.post('http://0.0.0.0:8080/user', payload);
+    const response = http.post(`http://${__ENV.USER_API_URL}/user`, payload);
     check(response, {
       "status code should be 201": res => res.status === 201,
     });
@@ -71,14 +71,14 @@ export default function () {
     const payload = {
       email: 'test@testing.com'
     };
-    const response = http.post('http://0.0.0.0:8080/user', payload);
+    const response = http.post(`http://${__ENV.USER_API_URL}/user`, payload);
     check(response, {
       "status code should be 500": res => res.status === 500,
     });
   });
 
   group('PATCH /user/:id', () => {
-    const response = http.patch('http://0.0.0.0:8080/user/5');
+    const response = http.patch(`http://${__ENV.USER_API_URL}/user/5`);
     check(response, {
       "status code should be 400": res => res.status === 400,
     });
@@ -90,21 +90,21 @@ export default function () {
       last_name: 'Hanks',
       email: 'tom@hanks.com'
     };
-    const response = http.patch('http://0.0.0.0:8080/user/5', payload);
+    const response = http.patch(`http://${__ENV.USER_API_URL}/user/5`, payload);
     check(response, {
       "status code should be 200": res => res.status === 200,
     });
   });
 
   group('DELETE /user/:id', () => {
-    const response = http.del('http://0.0.0.0:8080/user/5');
+    const response = http.del(`http://${__ENV.USER_API_URL}/user/5`);
     check(response, {
       "status code should be 200": res => res.status === 200,
     });
   });
 
   group('DELETE /user/:id with an invalid id', () => {
-    const response = http.del('http://0.0.0.0:8080/user/notanid');
+    const response = http.del(`http://${__ENV.USER_API_URL}/user/notanid`);
     console.log(response.body);
     check(response, {
       "status code should be 500": res => res.status === 500,

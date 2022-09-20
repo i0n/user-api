@@ -31,7 +31,7 @@ Other useful commands:
 
   run tests:
 
-      make docker-test-integration
+      make test-integration
 
 Environment:
 
