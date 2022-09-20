@@ -11,13 +11,6 @@ jobs:
     working_directory: ~/repo
     steps:
       - checkout
-      - run:
-          name: Set version
-          command: |
-            make print-version | cat > version.txt
-            make print-branch | cat > branch.txt
-            make print-rev | cat > rev.txt
-            make print-build-user | cat > build-user.txt
       - setup_remote_docker:
           version: 20.10.17
           docker_layer_caching: true
@@ -28,14 +21,19 @@ jobs:
       - image: cimg/base:stable
     working_directory: ~/repo
     steps:
+      - checkout
+      - run:
+          name: Set version
+          command: |
+            make print-version | cat > version.txt
+            make print-branch | cat > branch.txt
+            make print-rev | cat > rev.txt
+            make print-build-user | cat > build-user.txt
       - kubernetes/install-kubectl
       - kubernetes/install-kubeconfig:
           kubeconfig: KUBECONFIG_DATA
-      - attach_workspace:
-          at: ~/
       - setup_remote_docker:
           docker_layer_caching: false
-      - docker/configure-docker-credentials-store
       - run: docker login -u i0nw -p $(echo ${DOCKERHUB_PASSWORD})
       - run:  docker build . --build-arg DOCKER_ARG_VERSION=$(cat version.txt) --build-arg DOCKER_ARG_REV=$(cat rev.txt) --build-arg DOCKER_ARG_BRANCH=$(cat branch.txt) --build-arg DOCKER_ARG_BUILD_USER=$(cat build-user.txt) -t i0nw/user-api:latest
       - run: docker tag i0nw/user-api:latest i0nw/user-api:$(cat version.txt)
