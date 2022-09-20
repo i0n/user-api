@@ -55,6 +55,8 @@ workflows:
               only: main
       - k6io/test:
          script: ./test/integration/k6.js
+         requires:
+           - build
       - deploy:
           requires:
             - k6io/test
