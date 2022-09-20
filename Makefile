@@ -105,6 +105,9 @@ docker-push:
 	docker push ${CONTAINER_NAME}:latest
 	docker push ${CONTAINER_NAME}:$(VERSION)
 
+docker-test-integration:
+	docker run --rm --network user-api -e USER_API_URL=user-api:8080 -v $(shell pwd)/test/integration:/opt/bin grafana/k6 run /opt/bin/k6.js
+
 test-integration:
 	USER_API_URL=0.0.0.0:8080 k6 run ./test/integration/k6.js
 

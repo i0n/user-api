@@ -3,6 +3,10 @@ import { check, group } from 'k6';
 
 export let options = {
     vus: 1,
+    thresholds: {
+      // the rate of successful checks should be 100%
+      checks: ['rate>=1'],
+    },
 };
 
 export default function () {
