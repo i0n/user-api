@@ -120,3 +120,5 @@ Available content types:
       application/json
 
 Example deployment available at: https://user-api.i0n.io
+
+CI Available at: https://app.circleci.com/pipelines/github/i0n/user-api
